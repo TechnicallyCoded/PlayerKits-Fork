@@ -17,6 +17,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import pk.ajneb97.managers.JugadorManager;
 import pk.ajneb97.versions.NMS;
 import pk.ajneb97.versions.V1_19_R3;
+import pk.ajneb97.versions.V1_20_OrHigher;
 import pk.ajneb97.versions.V1_20_R1;
 
 public class Utilidades {
@@ -26,12 +27,29 @@ public class Utilidades {
 
 	static {
 		String packageName = Bukkit.getServer().getClass().getPackage().getName();
+		String[] packageParts = packageName.split("\\.");
+		String packageFullVersionPart = packageParts[packageParts.length - 1];
+		String[] packageVersionParts = packageFullVersionPart.split("_");
+		String mcFeatureVersionStr = packageVersionParts[packageVersionParts.length - 2];
+
+		int mcFeatureVersion = Integer.parseInt(mcFeatureVersionStr);
+
 		if (packageName.contains("1_19_R3")) {
 			nms = new V1_19_R3();
 		}
-		else if (packageName.contains("1_20_R1")) {
-			nms = new V1_20_R1();
+		else if (mcFeatureVersion >= 20) {
+			nms = new V1_20_OrHigher();
 		}
+		else {
+			throw new IllegalStateException("Your server version is not supported by this plugin");
+		}
+
+	}
+
+	public static void triggerStaticConstructor() {
+		// This method is only here to trigger the static constructor
+		// of the NMS class, which is needed to initialize the static
+		// fields of the NMS class.
 	}
 	
 	

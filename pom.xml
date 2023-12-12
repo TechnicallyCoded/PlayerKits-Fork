@@ -5,7 +5,7 @@
 
     <groupId>PlayerKits</groupId>
     <artifactId>PlayerKits</artifactId>
-    <version>2.26.0</version>
+    <version>2.27.0</version>
     <packaging>jar</packaging>
 
     <repositories>
@@ -86,7 +86,7 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
+        <sourceDirectory>src/main/java</sourceDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

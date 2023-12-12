@@ -194,9 +194,9 @@ public class V1_19_R3 implements NMS {
 	
 	public void saveNBT(ItemStack item, String path, FileConfiguration config) {
 		net.minecraft.world.item.ItemStack itemModificado = getNmsCopy(item);
-		net.minecraft.nbt.NBTTagCompound itemTag =  itemModificado.u();
-		if(itemModificado.t()){
-			Set<String> tags = itemTag.e();
+		net.minecraft.nbt.NBTTagCompound itemTag =  this.getNBTTagCompound(itemModificado);
+		if(this.hasNBTTagCompound(itemModificado)){
+			Set<String> tags = this.getNBTTagKeys(itemTag);
 			List<String> listaNBT = new ArrayList<String>();
 			for(String t : tags) {
 				if(!t.equals("ench") && !t.equals("HideFlags") && !t.equals("display")
@@ -232,7 +232,19 @@ public class V1_19_R3 implements NMS {
 		}
 		
 	}
-	
+
+	public Set<String> getNBTTagKeys(net.minecraft.nbt.NBTTagCompound nbtTagCompound) {
+		return nbtTagCompound.e();
+	}
+
+	public boolean hasNBTTagCompound(net.minecraft.world.item.ItemStack item) {
+		return item.t();
+	}
+
+	public NBTTagCompound getNBTTagCompound(net.minecraft.world.item.ItemStack item) {
+		return item.u();
+	}
+
 	public ItemStack setNBT(ItemStack item, String path, FileConfiguration config) {
 		net.minecraft.world.item.ItemStack nuevoItem = getNmsCopy(item);
 		net.minecraft.nbt.NBTTagCompound tag = nuevoItem.t() ? nuevoItem.u() : new net.minecraft.nbt.NBTTagCompound(); 
@@ -266,7 +278,6 @@ public class V1_19_R3 implements NMS {
 		return getBukkitCopy(nuevoItem);
 	}
 
-	@NotNull
 	public ItemStack getBukkitCopy(net.minecraft.world.item.ItemStack nuevoItem) {
 		return org.bukkit.craftbukkit.v1_19_R3.inventory.CraftItemStack.asBukkitCopy(nuevoItem);
 	}
