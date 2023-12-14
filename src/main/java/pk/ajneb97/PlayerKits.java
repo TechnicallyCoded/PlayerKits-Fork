@@ -20,6 +20,7 @@ import com.tcoded.folialib.FoliaLib;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -47,6 +48,7 @@ import pk.ajneb97.otros.Utilidades;
 
 public class PlayerKits extends JavaPlugin {
 
+    private static PlayerKits instance;
     PluginDescriptionFile pdfFile = getDescription();
     public String version = pdfFile.getVersion();
     private FileConfiguration kits = null;
@@ -73,8 +75,20 @@ public class PlayerKits extends JavaPlugin {
 
     private FoliaLib foliaLib;
 
+    public static PlayerKits getInstance() {
+        return instance;
+    }
+
     public void onEnable() {
+        instance = this;
+        new PlayerKitsAPI(this);
+
+        // Config
+        setNbtSeparationChar();
+
+        // Utils
         this.foliaLib = new FoliaLib(this);
+        Utilidades.triggerStaticConstructor();
 
         this.inventarioJugadores = new ArrayList<InventarioJugador>();
         registerEvents();
@@ -94,7 +108,6 @@ public class PlayerKits extends JavaPlugin {
             conexionDatabase.setupMySql(this, getConfig());
         }
         jugadorManager = new JugadorManager(this);
-        PlayerKitsAPI api = new PlayerKitsAPI(this);
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             new ExpansionPlayerKits(this).register();
@@ -102,10 +115,9 @@ public class PlayerKits extends JavaPlugin {
         checkMessagesUpdate();
 
         reloadPlayerDataSaveTask();
-        setNbtSeparationChar();
         Bukkit.getConsoleSender().sendMessage(nombrePlugin + ChatColor.YELLOW + "Has been enabled! " + ChatColor.WHITE + "Version: " + version);
-        Bukkit.getConsoleSender().sendMessage(nombrePlugin + ChatColor.YELLOW + "Thanks for using my plugin!  " + ChatColor.WHITE + "~Ajneb97");
-        updateChecker();
+//        Bukkit.getConsoleSender().sendMessage(nombrePlugin + ChatColor.YELLOW + "Thanks for using my plugin!  " + ChatColor.WHITE + "~Ajneb97");
+//        updateChecker();
     }
 
     public void onDisable() {

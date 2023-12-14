@@ -10,28 +10,27 @@ import pk.ajneb97.otros.Utilidades;
 
 public class PlayerKitsAPI {
 
-private static PlayerKits plugin;
-	
-	public PlayerKitsAPI(PlayerKits plugin) {
-		this.plugin = plugin;
-	}
-	
-	public static String getCooldown(Player player,String kit) {
-		FileConfiguration config = plugin.getConfig();
-		FileConfiguration configKits = plugin.getKits();
-		JugadorManager jManager = plugin.getJugadorManager();
-		String cooldown = Utilidades.getCooldown(kit, player, configKits, config, jManager);
-		if(cooldown.equals("ready")) {
-			return ChatColor.translateAlternateColorCodes('&', config.getString("Messages.cooldownPlaceholderReady"));
-		}else if(cooldown.equals("no_existe")) {
-			return null;
-		}
-		else {
-			return cooldown;
-		}
-	}
-	
-	public static String getNBTSeparationCharacter() {
-		return plugin.getNbtSeparationChar();
-	}
+    private static PlayerKits plugin;
+
+    public PlayerKitsAPI(PlayerKits pluginIn) {
+        plugin = pluginIn;
+    }
+
+    public static String getCooldown(Player player, String kit) {
+        FileConfiguration config = plugin.getConfig();
+        FileConfiguration configKits = plugin.getKits();
+        JugadorManager jManager = plugin.getJugadorManager();
+        String cooldown = Utilidades.getCooldown(kit, player, configKits, config, jManager);
+        if (cooldown.equals("ready")) {
+            return ChatColor.translateAlternateColorCodes('&', config.getString("Messages.cooldownPlaceholderReady"));
+        } else if (cooldown.equals("no_existe")) {
+            return null;
+        } else {
+            return cooldown;
+        }
+    }
+
+    public static String getNBTSeparationCharacter() {
+        return plugin.getNbtSeparationChar();
+    }
 }
